@@ -1,0 +1,5 @@
+function test(string $a, int $b) {
+    {
+        $x = 2;
+    }
+}

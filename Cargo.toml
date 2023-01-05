@@ -8,3 +8,6 @@ edition = "2021"
 [dependencies]
 ariadne = "0.1"
 chumsky = "0.8"
+
+[dev-dependencies]
+walkdir = "2.3.2"

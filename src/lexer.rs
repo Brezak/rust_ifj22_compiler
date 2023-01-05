@@ -1,9 +1,12 @@
+mod error;
+
 use std::ops::Range;
 
 use chumsky::prelude::*;
+pub use error::print_lexer_errors;
 
 use crate::token::Token;
-use crate::{error, unreachable, warn};
+use crate::{error, unreachable};
 
 pub type Span = Range<usize>;
 
@@ -81,7 +84,7 @@ pub fn lexer() -> impl Parser<char, Vec<(Token, Span)>, Error = Simple<char>> {
                     }),
             ))
             .or(just('u').ignore_then(
-                filter(|c: &char| c.is_digit(16))
+                filter(|c: &char| c.is_ascii_hexdigit())
                     .repeated()
                     .exactly(4)
                     .collect::<String>()
@@ -146,4 +149,5 @@ pub fn lexer() -> impl Parser<char, Vec<(Token, Span)>, Error = Simple<char>> {
         .padded_by(comment.repeated())
         .padded()
         .repeated()
+        .then_ignore(end())
 }

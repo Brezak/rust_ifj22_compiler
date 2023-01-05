@@ -1,8 +1,6 @@
 use std::{env, fs};
 
-use ariadne::{Color, Fmt, Label, Report, ReportKind, Source};
 use chumsky::prelude::*;
-use rust_ifj22_compiler::extensions::ToColor;
 use rust_ifj22_compiler::lexer::{lexer, print_lexer_errors};
 
 fn main() {

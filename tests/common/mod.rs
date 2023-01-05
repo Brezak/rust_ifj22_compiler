@@ -1,9 +1,6 @@
-use std::env::join_paths;
-use std::ffi::OsString;
 use std::fs;
 use std::path::{Path, PathBuf};
 
-use chumsky::chain::Chain;
 use walkdir::{DirEntry, WalkDir};
 
 pub fn load_test_code<P: AsRef<Path>>(file_name: P) -> String {
@@ -32,7 +29,8 @@ pub fn load_test_group<P: AsRef<Path>>(folder_name: P) -> Vec<(String, String)> 
     let mut path = PathBuf::from("./tests/common");
     path.push(folder_name);
 
-    WalkDir::new(path).into_iter()
+    WalkDir::new(path)
+        .into_iter()
         .filter_map(|e| e.ok())
         .filter_map(load_dir_entry)
         .collect()

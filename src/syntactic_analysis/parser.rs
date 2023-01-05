@@ -2,15 +2,13 @@ mod control;
 mod expression;
 mod ident;
 
-use std::hash::{Hash, Hasher};
-
 use chumsky::prelude::*;
 
 use crate::lexer::Span;
 use crate::syntactic_analysis::ast::{Body, MainBody, Type, WithSpan};
 use crate::syntactic_analysis::helpers::expected_types;
 use crate::token::Token;
-use crate::{error, unreachable, warn};
+use crate::{error, unreachable};
 
 fn check_ident(span: Span, ident: String) -> Result<WithSpan<String>, Simple<Token>> {
     let mut chars = ident.chars();
@@ -63,7 +61,7 @@ fn type_parser() -> impl Parser<Token, WithSpan<Type>, Error = Simple<Token>> + 
     filter_map(|span: Span, token: Token| match token {
         Token::Ident(ref name) => {
             let nullable = name.starts_with('?');
-            let r#type = if nullable { name.split_at(1).1 } else { &name };
+            let r#type = if nullable { name.split_at(1).1 } else { name };
 
             match r#type {
                 "int" => Ok(WithSpan(span, Type::Int { nullable })),
@@ -83,15 +81,15 @@ fn type_parser() -> impl Parser<Token, WithSpan<Type>, Error = Simple<Token>> + 
 }
 
 pub fn parse_body() -> impl Parser<Token, WithSpan<Vec<WithSpan<Body>>>, Error = Simple<Token>> {
-    let function_name = func_ident();
+    let _function_name = func_ident();
 
-    let var_ident = var_ident();
+    let _var_ident = var_ident();
 
     todo()
 }
 
 pub fn parser() -> impl Parser<Token, MainBody, Error = Simple<Token>> {
-    let function_name = func_ident();
+    let _function_name = func_ident();
 
     let var_ident = var_ident();
 
@@ -99,12 +97,12 @@ pub fn parser() -> impl Parser<Token, MainBody, Error = Simple<Token>> {
 
     let arg = type_parser.then(var_ident);
 
-    let args = arg
+    let _args = arg
         .separated_by(just(Token::Control(',')))
         .allow_trailing()
         .delimited_by(just(Token::Control('(')), just(Token::Control(')')))
         .labelled("function args");
 
-    let func = ();
+    ();
     todo()
 }

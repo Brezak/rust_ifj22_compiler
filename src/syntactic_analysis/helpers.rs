@@ -1,4 +1,3 @@
-use crate::syntactic_analysis::ast::{Expression, Term, WithSpan};
 use crate::token::Token;
 use crate::token::Token::Type;
 

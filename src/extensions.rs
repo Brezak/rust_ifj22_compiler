@@ -10,7 +10,7 @@ impl ToColor for ReportKind {
             ReportKind::Error => Color::Red,
             ReportKind::Warning => Color::Yellow,
             ReportKind::Advice => Color::White,
-            ReportKind::Custom(_, color) => color.clone(),
+            ReportKind::Custom(_, color) => *color,
         }
     }
 }

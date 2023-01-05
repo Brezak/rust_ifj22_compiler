@@ -1,7 +1,8 @@
+use chumsky::prelude::*;
+
 use crate::lexer::Span;
 use crate::syntactic_analysis::ast::{Body, Expression, MainBody, RVal, Term, Type, WithSpan};
 use crate::{error, unreachable, warn, Token};
-use chumsky::prelude::*;
 
 fn check_ident(span: Span, ident: String) -> Result<WithSpan<String>, Simple<Token>> {
     let mut chars = ident.chars();

@@ -1,8 +1,9 @@
+use std::{env, fs};
+
 use ariadne::{Color, Fmt, Label, Report, ReportKind, Source};
 use chumsky::prelude::*;
-use std::{env, fs};
-use RustIFJ22Parser::extensions::ToColor;
-use RustIFJ22Parser::lexer::lexer;
+use rust_ifj22_compiler::extensions::ToColor;
+use rust_ifj22_compiler::lexer::lexer;
 
 fn main() {
     let file_name = env::args().nth(1).expect("Expected file argument");

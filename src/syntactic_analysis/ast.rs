@@ -1,7 +1,8 @@
-use crate::lexer::Span;
 use std::fmt::{Display, Formatter};
 use std::hash::{Hash, Hasher};
 use std::ops::{Deref, DerefMut};
+
+use crate::lexer::Span;
 
 #[derive(Debug, Default, Clone, Hash, Eq, PartialEq)]
 pub struct WithSpan<T>(pub Span, pub T);
@@ -48,9 +49,7 @@ pub enum MainBody {
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Body {
-    If {
-        
-    },
+    If {},
 
     While {
         span: Span,
@@ -109,9 +108,7 @@ pub enum Expression {
 }
 
 #[derive(Debug, Copy, Clone, Hash, Eq, PartialEq)]
-pub enum Operation {
-
-}
+pub enum Operation {}
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Term {

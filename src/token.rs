@@ -1,5 +1,6 @@
-use crate::syntactic_analysis::ast::Type;
 use std::fmt::{Debug, Display, Formatter};
+
+use crate::syntactic_analysis::ast::Type;
 
 #[derive(Debug, Clone, Hash, Eq, PartialEq)]
 pub enum Token {

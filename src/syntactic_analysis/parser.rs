@@ -1,14 +1,16 @@
-mod ident;
-mod expression;
 mod control;
+mod expression;
+mod ident;
+
+use std::hash::{Hash, Hasher};
+
+use chumsky::prelude::*;
 
 use crate::lexer::Span;
 use crate::syntactic_analysis::ast::{Body, MainBody, Type, WithSpan};
 use crate::syntactic_analysis::helpers::expected_types;
 use crate::token::Token;
 use crate::{error, unreachable, warn};
-use chumsky::prelude::*;
-use std::hash::{Hash, Hasher};
 
 fn check_ident(span: Span, ident: String) -> Result<WithSpan<String>, Simple<Token>> {
     let mut chars = ident.chars();

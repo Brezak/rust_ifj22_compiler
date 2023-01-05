@@ -1,4 +1,5 @@
 use std::mem::size_of;
+
 use RustIFJ22Parser::Token;
 
 const MAX_TOKEN_SIZE: usize = 32;

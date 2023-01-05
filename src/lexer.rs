@@ -1,7 +1,9 @@
+use std::ops::Range;
+
+use chumsky::prelude::*;
+
 use crate::token::Token;
 use crate::{error, unreachable, warn};
-use chumsky::prelude::*;
-use std::ops::Range;
 
 pub type Span = Range<usize>;
 

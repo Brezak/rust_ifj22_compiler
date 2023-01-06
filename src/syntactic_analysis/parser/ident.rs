@@ -1,10 +1,11 @@
 use chumsky::prelude::*;
 
-use crate::lexer::Span;
-use crate::syntactic_analysis::ast::{Expression, RVal, Term, WithSpan};
-use crate::{error, unreachable, Token};
+use crate::syntactic_analysis::ast::RVal;
+use crate::syntactic_analysis::parser::expression::{expression, expression_to_reverse_polish};
+use crate::syntactic_analysis::parser::f_call::function_call;
+use crate::{error, unreachable, Span, Token};
 
-fn check_ident(span: Span, ident: String) -> Result<WithSpan<String>, Simple<Token>> {
+fn check_ident(span: Span, ident: String) -> Result<String, Simple<Token>> {
     let mut chars = ident.chars();
     if let Some(first_char) = chars.next() {
         if !first_char.is_alphanumeric() {
@@ -26,17 +27,17 @@ fn check_ident(span: Span, ident: String) -> Result<WithSpan<String>, Simple<Tok
         }
     }
 
-    Ok(WithSpan(span, ident))
+    Ok(ident)
 }
 
-pub fn func_ident() -> impl Parser<Token, WithSpan<String>, Error = Simple<Token>> + Copy {
+pub fn func_ident() -> impl Parser<Token, String, Error = Simple<Token>> + Copy {
     filter_map(|span, token| match token {
         Token::Ident(name) => check_ident(span, name),
         _ => Err(Simple::expected_input_found(span, Vec::new(), Some(token))),
     })
 }
 
-pub fn var_ident() -> impl Parser<Token, WithSpan<String>, Error = Simple<Token>> + Copy {
+pub fn var_ident() -> impl Parser<Token, String, Error = Simple<Token>> + Copy {
     filter_map(|span, token| match token {
         Token::Ident(name) => {
             let (start, rest) = name.split_at(1);
@@ -44,22 +45,17 @@ pub fn var_ident() -> impl Parser<Token, WithSpan<String>, Error = Simple<Token>
                 return Err(error!(span, "variable identifiers should start with $"));
             }
 
-            check_ident(span, rest.to_string()).map(|WithSpan(span, _)| WithSpan(span, name))
+            check_ident(span, rest.to_string())
         }
 
         _ => Err(Simple::expected_input_found(span, Vec::new(), Some(token))),
     })
 }
 
-pub fn rval() -> impl Parser<Token, WithSpan<RVal>, Error = Simple<Token>> + Copy {
-    var_ident()
-        .map(|WithSpan(span, ident)| {
-            WithSpan(
-                span.clone(),
-                RVal::Expr {
-                    expr: vec![WithSpan(span, Expression::Term(Term::Var(ident)))],
-                },
-            )
+pub fn rval() -> impl Parser<Token, RVal, Error = Simple<Token>> + Clone {
+    expression()
+        .map(|expr| RVal::Expr {
+            expr: expression_to_reverse_polish(expr),
         })
-        .or(func_ident().map(|WithSpan(span, ident)| WithSpan(span, RVal::FunctionCall { ident })))
+        .or(function_call())
 }

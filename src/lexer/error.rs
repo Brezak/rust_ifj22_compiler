@@ -1,7 +1,7 @@
 use ariadne::{Color, Fmt, Label, Report, ReportKind, Source};
 use chumsky::error::Simple;
 
-use crate::extensions::ToColor;
+use crate::help::ToColor;
 
 pub fn print_lexer_errors(errs: Vec<Simple<char>>, src: &str, src_name: &str) {
     for err in errs {

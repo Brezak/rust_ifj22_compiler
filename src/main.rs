@@ -1,5 +1,4 @@
 use std::{env, fs};
-use std::hint::black_box;
 
 use chumsky::prelude::*;
 use rust_ifj22_compiler::lexer::{lexer, print_lexer_errors};

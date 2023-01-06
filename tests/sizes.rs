@@ -1,5 +1,6 @@
 use std::mem::size_of;
 
+use chumsky::error::Simple;
 use rust_ifj22_compiler::syntactic_analysis::ast::MainBody;
 use rust_ifj22_compiler::Token;
 
@@ -10,6 +11,7 @@ const MAX_AST_SIZE: usize = 64;
 fn test_token_size() {
     println!("Token size: {}", size_of::<Token>());
     assert!(size_of::<Token>() <= MAX_TOKEN_SIZE);
+    println!("Simple<Token> size: {}", size_of::<Simple<Token>>());
 }
 
 #[test]

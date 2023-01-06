@@ -1,35 +1,15 @@
 use std::fmt::{Display, Formatter};
-use std::hash::{Hash, Hasher};
-use std::ops::{Deref, DerefMut};
+use std::hash::Hash;
 
-use crate::lexer::Span;
-
-#[derive(Debug, Default, Clone, Hash, Eq, PartialEq)]
-pub struct WithSpan<T>(pub Span, pub T);
-
-// For ergonomics
-impl<T> Deref for WithSpan<T> {
-    type Target = T;
-
-    fn deref(&self) -> &Self::Target {
-        &self.1
-    }
-}
-
-impl<T> DerefMut for WithSpan<T> {
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.1
-    }
-}
+use crate::Span;
 
 #[derive(Debug)]
 pub enum MainBody {
     FuncDef {
-        span: Span,
-        func_ident: WithSpan<String>,
-        args: WithSpan<Vec<WithSpan<Param>>>,
-        return_ty: WithSpan<Type>,
-        body: Vec<WithSpan<Body>>,
+        func_ident: String,
+        args: Vec<Param>,
+        return_ty: Type,
+        body: Vec<Body>,
     },
 
     If(If),
@@ -39,8 +19,8 @@ pub enum MainBody {
     Exp(RVal),
 
     VarAssignment {
-        ident: WithSpan<String>,
-        expression: WithSpan<Expression>,
+        ident: String,
+        expression: RVal,
     },
 
     Return,
@@ -53,41 +33,44 @@ pub enum Body {
 
     While {
         span: Span,
-        expr: WithSpan<RVal>,
-        body: WithSpan<Vec<WithSpan<Body>>>,
+        expr: RVal,
+        body: Vec<Body>,
     },
 
-    Exp(WithSpan<RVal>),
+    Exp(RVal),
 
     VarAssignment {
-        ident: WithSpan<String>,
-        expression: WithSpan<Expression>,
+        ident: String,
+        expression: RVal,
     },
 
-    Return(WithSpan<RVal>),
+    Return(RVal),
     Error,
 }
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct If {
-    span: Span,
-    expr: WithSpan<RVal>,
-    true_body: WithSpan<Vec<WithSpan<Body>>>,
-    false_body: WithSpan<Vec<WithSpan<Body>>>,
+    pub(crate) expr: RVal,
+    pub(crate) if_body: Vec<Body>,
+    pub(crate) else_body: Vec<Body>,
 }
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct While {
-    span: Span,
-    expr: WithSpan<RVal>,
-    body: WithSpan<Vec<WithSpan<Body>>>,
+    pub expr: RVal,
+    pub body: Vec<Body>,
 }
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum RVal {
-    FunctionCall { ident: String },
+    FunctionCall {
+        ident: String,
+        args: Vec<Vec<Expression>>,
+    },
 
-    Expr { expr: Vec<WithSpan<Expression>> },
+    Expr {
+        expr: Vec<Expression>,
+    },
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -97,12 +80,12 @@ pub enum Expression {
     Multiply,
     Divide,
     Concat,
-    Less,
-    More,
+    Smaller,
+    Greater,
     Equals,
     NotEquals,
-    LessEquals,
-    MoreEquals,
+    SmallerEquals,
+    GreaterEquals,
     Not,
     Term(Term),
 }
@@ -158,6 +141,6 @@ impl Display for Type {
 
 #[derive(Debug, Clone, Eq, PartialEq)]
 pub struct Param {
-    pub ident: WithSpan<String>,
-    pub r#type: WithSpan<Type>,
+    pub ident: String,
+    pub r#type: Type,
 }

@@ -1,14 +1,10 @@
 mod error;
 
-use std::ops::Range;
-
 use chumsky::prelude::*;
 pub use error::print_lexer_errors;
 
 use crate::token::Token;
-use crate::{error, unreachable};
-
-pub type Span = Range<usize>;
+use crate::{error, unreachable, Span};
 
 fn number() -> impl Parser<char, Token, Error = Simple<char>> {
     let exp = just('e')

@@ -115,6 +115,7 @@ pub enum Term {
     Var(String),
     Int(i64), // The original language supported only i32 but why should we limit ourselves to 32 bits
     Float(f64), // Especially when it used a 64 bit floating point type
+    Bool(bool),
     String(String),
     Null,
 }

@@ -1,0 +1,14 @@
+[book]
+authors = ["Brezak"]
+language = "en"
+multilingual = false
+src = "src"
+title = "The IFJ22 compiler reference"
+
+[rust]
+edition = "2021"
+
+[output.html]
+git-repository-url = "https://github.com/Brezak/rust_ifj22_compiler/tree/doc/doc/reference"
+edit-url-template = "https://github.com/Brezak/rust_ifj22_compiler/tree/doc/doc/reference/{path}"
+curly-quotes = true

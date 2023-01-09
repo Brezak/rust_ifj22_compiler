@@ -2,6 +2,8 @@
 
 [Introduction](./introduction.md)
 - [The Language](./language.md)
+  - [Keywords and Identifiers](./language/keywords_and_identifiers.md)
+  - [Types](./language/types.md)
   - [Main body Statement](./language/main_body_statement.md)
     - [Function Definition]() 
   - [Statements](./language/statement.md)
@@ -10,5 +12,5 @@
     - [For loop](./language/statements/for_statement.md)
     - [Variable assignment](./language/statements/assignment_statement.md)
     - [Return statement](./language/statements/return_statement.md)
-  - [Expressions](./language/expressions.md)
+- [Expressions](./language/expressions.md)
 - [The Compiler]()

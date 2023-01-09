@@ -1,0 +1,4 @@
+# While loop
+
+> **Syntax**\
+> WhileStatement:

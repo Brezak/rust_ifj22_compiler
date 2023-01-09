@@ -15,6 +15,10 @@ adds for loops and other niceties[^additional features].
 The following subchapters will be the reference for the language this compiler works with.
 The notation and structure used in this reference will be based on the [Rust Reference](https://doc.rust-lang.org/stable/reference/notation.html)
 
+The IFJ22 language is mostly composed of statements. A source file is composed of a series of statements executed in series.
+There exist 2 kinds of statements a [main body statement]() and a normal [statement]() the only difference between them
+is that the main body statement may contain function definitions while a normal statement can't
+
 [^integer sizes]: The underlying floating point type for floats is 64 bits. I found no reason why integers shouldn't be just as wide.
 
 [^additional features]: The original IFJ22 language specification mentions extensions to the language e.g. for loops

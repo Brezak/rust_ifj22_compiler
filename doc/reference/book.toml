@@ -9,6 +9,6 @@ title = "The IFJ22 compiler reference"
 edition = "2021"
 
 [output.html]
-git-repository-url = "https://github.com/Brezak/rust_ifj22_compiler/tree/doc/doc/reference"
-edit-url-template = "https://github.com/Brezak/rust_ifj22_compiler/tree/doc/doc/reference/{path}"
+git-repository-url = "https://github.com/Brezak/rust_ifj22_compiler/tree/master/doc/reference"
+edit-url-template = "https://github.com/Brezak/rust_ifj22_compiler/tree/master/doc/reference/{path}"
 curly-quotes = true

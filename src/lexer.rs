@@ -25,7 +25,7 @@ fn number() -> impl Parser<char, Token, Error = Simple<char>> {
 pub fn lexer() -> impl Parser<char, Vec<(Token, Span)>, Error = Simple<char>> {
     let num = number();
 
-    let operator = one_of("+-*/.=!<>")
+    let operator = one_of("+-*/.=!<>&|")
         .repeated()
         .at_least(1)
         .collect::<String>()
@@ -107,10 +107,9 @@ pub fn lexer() -> impl Parser<char, Vec<(Token, Span)>, Error = Simple<char>> {
         .labelled("string")
         .map(Token::Str);
 
-    let ctrl = one_of("()[]{};,").map(Token::Control);
+    let ctrl = one_of("()[]{};,").labelled("control").map(Token::Control);
 
     let php_ident = filter(|c: &char| c.is_alphabetic() || *c == '_' || *c == '$')
-        .map(Some)
         .chain::<char, Vec<_>, _>(
             filter(|c: &char| c.is_alphabetic() || *c == '_' || *c == '$').repeated(),
         )
@@ -120,11 +119,15 @@ pub fn lexer() -> impl Parser<char, Vec<(Token, Span)>, Error = Simple<char>> {
         text::keyword("function").to(Token::Function),
         text::keyword("if").to(Token::If),
         text::keyword("else").to(Token::Else),
+        text::keyword("elseif").to(Token::ElseIf),
         text::keyword("true").to(Token::Bool(true)),
         text::keyword("false").to(Token::Bool(false)),
         text::keyword("null").to(Token::Null),
         text::keyword("while").to(Token::While),
         text::keyword("return").to(Token::Return),
+        text::keyword("for").to(Token::For),
+        text::keyword("continue").to(Token::Continue),
+        text::keyword("break").to(Token::Break),
         php_ident.map(Token::Ident),
     ));
 

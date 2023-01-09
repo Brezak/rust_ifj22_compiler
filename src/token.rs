@@ -14,8 +14,12 @@ pub enum Token {
     Function,
     If,
     Else,
+    ElseIf,
     Return,
     While,
+    For,
+    Break,
+    Continue,
     Type(Type),
 }
 
@@ -32,8 +36,12 @@ impl Display for Token {
             Token::Function => write!(f, "function"),
             Token::If => write!(f, "if"),
             Token::Else => write!(f, "else"),
+            Token::ElseIf => write!(f, "elseif"),
             Token::Return => write!(f, "return"),
             Token::While => write!(f, "while"),
+            Token::For => write!(f, "for"),
+            Token::Break => write!(f, "break"),
+            Token::Continue => write!(f, "continue"),
             Token::Type(name) => Display::fmt(name, f),
         }
     }

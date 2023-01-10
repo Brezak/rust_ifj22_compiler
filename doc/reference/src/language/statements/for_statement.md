@@ -1,4 +1,5 @@
 # For loop
 
 > **Syntax**\
-> ForStatement:
+> ForStatement:\
+> &nbsp;&nbsp; `for` `(` [Expression](../expressions.md)<sup>?</sup> `;` [Expression](../expressions.md)<sup>?</sup> `;` [Expression](../expressions.md)<sup>?</sup> `)` `{` [Statement](../statement.md)<sup>\*</sup> `}`

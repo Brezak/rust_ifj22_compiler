@@ -1,4 +1,5 @@
 # While loop
 
 > **Syntax**\
-> WhileStatement:
+> WhileStatement:\
+> &nbsp;&nbsp; `while` `(` [Expression](../expressions.md) `)` `{` [Statement](../statement.md)<sup>\*</sup> `}`

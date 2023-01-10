@@ -1,4 +1,12 @@
 # Types
+
+> **Syntax**:\
+> Type:\
+> `string` | `float` | `int`
+>
+> NullableType:\
+> ?_Type_
+
 The IFJ22 language currently only supports the types string, int, float, null.
 Null is not a type that can be used on its own instead a different type may be marked as nullable meaning that a value
 of such type may contain any value of such type or a special value NULL.
@@ -13,9 +21,3 @@ is 2<sup>63</sup> - 1
 
 ## Floats
 Floats are stored using the IEEE 754-2008 binary64 format.
-
-> Type:\
-> `string` | `float` | `int`
-> 
-> NullableType:\
-> ?_Type_

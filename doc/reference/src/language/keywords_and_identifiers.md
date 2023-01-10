@@ -1,6 +1,7 @@
 # Keywords and Identifiers
 
 ## Keywords
+
 The IFJ22 language reserves several keywords that can't be used as identifiers. Most keywords are currently in use but 
 several are reserved and may at any point be introduced into the language. What follows is a list of every keyword
 split into two groups `Keywords` and `Reserved keywords`

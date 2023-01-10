@@ -1,4 +1,5 @@
 # Return
 
-> Syntax\
-> return:
+> **Syntax**\
+> ReturnStatement:\
+> &nbsp;&nbsp; `return` [Expression](../expressions.md)

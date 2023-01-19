@@ -1,10 +1,14 @@
+mod comment;
 mod error;
+mod ident;
 
 use chumsky::prelude::*;
 pub use error::print_lexer_errors;
 
+use crate::lexer::ident::{ident, keyword};
 use crate::token::Token;
 use crate::{error, unreachable, Span};
+use crate::lexer::comment::comment;
 
 fn number() -> impl Parser<char, Token, Error = Simple<char>> {
     let exp = just('e')
@@ -109,39 +113,16 @@ pub fn lexer() -> impl Parser<char, Vec<(Token, Span)>, Error = Simple<char>> {
 
     let ctrl = one_of("()[]{};,").labelled("control").map(Token::Control);
 
-    let php_ident = filter(|c: &char| c.is_alphabetic() || *c == '_' || *c == '$')
-        .chain::<char, Vec<_>, _>(
-            filter(|c: &char| c.is_alphabetic() || *c == '_' || *c == '$').repeated(),
-        )
-        .collect();
-
-    let ident = choice((
-        text::keyword("function").to(Token::Function),
-        text::keyword("if").to(Token::If),
-        text::keyword("else").to(Token::Else),
-        text::keyword("elseif").to(Token::ElseIf),
-        text::keyword("true").to(Token::Bool(true)),
-        text::keyword("false").to(Token::Bool(false)),
-        text::keyword("null").to(Token::Null),
-        text::keyword("while").to(Token::While),
-        text::keyword("return").to(Token::Return),
-        text::keyword("for").to(Token::For),
-        text::keyword("continue").to(Token::Continue),
-        text::keyword("break").to(Token::Break),
-        php_ident.map(Token::Ident),
-    ));
+    let word = keyword().or(ident());
 
     let token = num
         .or(string)
         .or(operator)
         .or(ctrl)
-        .or(ident)
+        .or(word)
         .recover_with(skip_then_retry_until([]));
 
-    let comment = just("//")
-        .then(take_until(just("\n")))
-        .or(just("/*").then(take_until(just("*/"))))
-        .padded();
+    let comment = comment();
 
     token
         .map_with_span(|tok, span| (tok, span))
